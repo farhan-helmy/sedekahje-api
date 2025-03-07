@@ -220,7 +220,8 @@ Key features:
 ├── bun.lock             # Bun lock file
 ├── package.json         # Package configuration
 ├── README.md            # This file
-└── tsconfig.json        # TypeScript configuration
+├── tsconfig.json        # TypeScript configuration
+└── wrangler.toml        # Cloudflare Workers configuration
 ```
 
 ## Changelog

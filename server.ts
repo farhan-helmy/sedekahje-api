@@ -7,6 +7,7 @@ import { compress } from 'hono/compress'
 import { DB } from './config'
 import { Users } from '~/routes'
 import { errorHandler, notFound } from '~/middlewares'
+import { ApiDoc } from './components/ApiDoc'
 
 // Initialize the Hono app with base path
 const app = new Hono().basePath('/api/v1')
@@ -38,8 +39,68 @@ app.use(
   })
 )
 
-// Home Route
-app.get('/', (c) => c.text('Welcome to the API!'))
+// Home Route with API Documentation [FOR DEMO PURPOSES]
+app.get('/', (c) => {
+  const apiRoutes = [
+    {
+      method: 'GET',
+      path: '/api/v1',
+      description: 'API Documentation',
+      auth: false,
+      admin: false,
+    },
+    {
+      method: 'POST',
+      path: '/api/v1/users',
+      description: 'Create a new user',
+      auth: false,
+      admin: false,
+    },
+    {
+      method: 'POST',
+      path: '/api/v1/users/login',
+      description: 'User login',
+      auth: false,
+      admin: false,
+    },
+    {
+      method: 'GET',
+      path: '/api/v1/users/profile',
+      description: 'Get user profile',
+      auth: true,
+      admin: false,
+    },
+    {
+      method: 'PUT',
+      path: '/api/v1/users/profile',
+      description: 'Update user profile',
+      auth: true,
+      admin: false,
+    },
+    {
+      method: 'GET',
+      path: '/api/v1/users',
+      description: 'Get all users',
+      auth: true,
+      admin: true,
+    },
+    {
+      method: 'GET',
+      path: '/api/v1/users/:id',
+      description: 'Get user by ID',
+      auth: true,
+      admin: true,
+    },
+  ]
+
+  return c.html(
+    ApiDoc({
+      title: 'Bun + Hono API Starter',
+      version: '2.0.0',
+      routes: apiRoutes,
+    })
+  )
+})
 
 // User Routes
 app.route('/users', Users)
@@ -50,8 +111,10 @@ app.onError((err, c) => errorHandler(c))
 // Not Found Handler (standardized response)
 app.notFound(notFound)
 
+// Determine the environment
 const port = process.env?.PORT || 8000
 
+// Export for both Bun and Cloudflare Workers
 export default {
   port,
   fetch: app.fetch,
