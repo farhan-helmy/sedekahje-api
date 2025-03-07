@@ -88,25 +88,19 @@ bun start
 
 This project is configured to deploy to Cloudflare Workers, which offers a generous free tier:
 
-1. Install Wrangler CLI:
+1. Log in to your Cloudflare account:
 
 ```bash
-npm install -g wrangler
+bunx wrangler login
 ```
 
-2. Log in to your Cloudflare account:
+2. Deploy your application:
 
 ```bash
-wrangler login
+bunx wrangler deploy
 ```
 
-3. Deploy your application:
-
-```bash
-bun run deploy
-```
-
-4. Set up your environment variables in the Cloudflare Dashboard:
+3. Set up your environment variables in the Cloudflare Dashboard:
    - Go to your Workers service
    - Navigate to Settings > Variables
    - Add your environment variables (MONGO_URI, JWT_SECRET, etc.)
