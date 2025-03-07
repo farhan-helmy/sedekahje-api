@@ -1,4 +1,4 @@
-import { createGzip, createDeflate, createBrotliCompress } from 'zlib'
+import { createGzip, createDeflate, createBrotliCompress } from 'node:zlib'
 
 function createCompressionStream(format: string) {
   let handler

@@ -11,8 +11,10 @@ import { errorHandler, notFound } from '~/middlewares'
 // Initialize the Hono app with base path
 const app = new Hono().basePath('/api/v1')
 
-// Config MongoDB
-DB()
+// Config MongoDB - Only connect if not in Cloudflare Workers environment
+if (typeof process !== 'undefined') {
+  DB()
+}
 
 // Logger middleware
 app.use(logger())
@@ -48,8 +50,7 @@ app.onError((err, c) => errorHandler(c))
 // Not Found Handler (standardized response)
 app.notFound(notFound)
 
-// Use process.env for better compatibility
-const port = process.env.PORT || 8000
+const port = process.env?.PORT || 8000
 
 export default {
   port,

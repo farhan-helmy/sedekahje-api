@@ -23,6 +23,7 @@ A modern, high-performance API starter template using [Bun](https://bun.sh), [Ho
 - [Usage](#usage)
   - [Development](#development)
   - [Production](#production)
+  - [Deployment to Cloudflare Workers](#deployment-to-cloudflare-workers)
 - [API Routes](#api-routes)
 - [User Model](#user-model)
 - [Project Structure](#project-structure)
@@ -82,6 +83,35 @@ Start the production server:
 ```bash
 bun start
 ```
+
+### Deployment to Cloudflare Workers
+
+This project is configured to deploy to Cloudflare Workers, which offers a generous free tier:
+
+1. Install Wrangler CLI:
+
+```bash
+npm install -g wrangler
+```
+
+2. Log in to your Cloudflare account:
+
+```bash
+wrangler login
+```
+
+3. Deploy your application:
+
+```bash
+bun run deploy
+```
+
+4. Set up your environment variables in the Cloudflare Dashboard:
+   - Go to your Workers service
+   - Navigate to Settings > Variables
+   - Add your environment variables (MONGO_URI, JWT_SECRET, etc.)
+
+> Note: For database connections, you might need to use Cloudflare's database offerings or connect to an external database with proper CORS configurations.
 
 ## API Routes
 
