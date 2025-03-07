@@ -1,19 +1,38 @@
 {
-  "name": "crud",
-  "module": "server.ts",
-  "type": "module",
+  "name": "bun-hono-api-starter",
+  "version": "2.0.0",
+  "description": "A starter template for building APIs with Bun and Hono",
+  "author": "Mehedi <admin@promehedi.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ProMehedi/bun-hono-api-starter"
+  },
   "scripts": {
-    "start": "bun run server.ts",
-    "dev": "bun --hot run server.ts"
-  },
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+    "start": "NODE_ENV=production bun run server.ts",
+    "dev": "bun run --hot server.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^3.3.4",
-    "mongoose": "^7.4.1"
-  }
+    "hono": "^4.7.4",
+    "mongoose": "^8.12.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/mongoose": "^5.11.97"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "keywords": [
+    "bun",
+    "hono",
+    "mongodb",
+    "mongoose",
+    "typescript",
+    "api",
+    "rest",
+    "starter",
+    "template"
+  ]
 }

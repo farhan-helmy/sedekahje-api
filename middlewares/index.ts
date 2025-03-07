@@ -1,2 +1,2 @@
-export { protect, isAdmin } from './authMiddlewares'
-export { errorHandler, notFound } from './errorMiddlewares'
+export * from './auth.middlewares'
+export * from './error.middlewares'

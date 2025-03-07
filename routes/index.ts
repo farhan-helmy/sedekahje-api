@@ -1,1 +1,1 @@
-export { default as Users } from './userRoutes'
+export { default as Users } from './user.routes'

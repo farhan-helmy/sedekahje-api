@@ -1,76 +1,106 @@
-# REST API using Bun + Hono + MongoDB + TypeScript
+# Bun + Hono API Starter
 
-Welcome to your new Bun project! This project is a REST API using Bun + Hono + MongoDB + TypeScript providing a powerful and efficient platform with a simple CRUD interface for a user model.
+A modern, high-performance API starter template using [Bun](https://bun.sh), [Hono](https://hono.dev), [MongoDB](https://mongodb.com), and TypeScript.
+
+## Features
+
+- ⚡️ **Ultra-fast performance** with Bun runtime
+- 🔄 **Hot reloading** for fast development cycles
+- 🧩 **Modular architecture** for scalability
+- 🔒 **Built-in authentication** middleware and JWT support
+- 🚦 **Request validation** for robust API design
+- 🗃️ **MongoDB integration** with Mongoose
+- 📦 **Compression support** for optimized responses
+- ✅ **TypeScript** for type safety
+- 🔍 **Error handling** middleware
 
 ## Table of Contents
 
 - [Getting Started](#getting-started)
-  - [Installations](#installations)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
   - [Configuration](#configuration)
-  - [Routes](#routes)
-  - [Usage](#usage)
+- [Usage](#usage)
+  - [Development](#development)
+  - [Production](#production)
+- [API Routes](#api-routes)
+- [User Model](#user-model)
 - [Project Structure](#project-structure)
+- [Changelog](#changelog)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
 ## Getting Started
 
+### Prerequisites
+
 Before you begin, make sure you have the following installed:
 
-- [Bun](https://bun.sh)
-- [MongoDB](mongodb.com) or [MongoCompass](mongodb.com/products/compass)
+- [Bun](https://bun.sh) (v1.0.0 or newer)
+- [MongoDB](https://mongodb.com) or [MongoDB Atlas](https://www.mongodb.com/atlas/database)
 
-### Installations:
+### Installation
 
-1. Clone this repository to your local machine
-
-```bash
-git clone https://github.com/ProMehedi/bun-hono-rest-api.git
-```
-
-2. Navigate to the project directory
+1. Clone this repository:
 
 ```bash
-cd bun-hono-rest-api
+git clone https://github.com/ProMehedi/bun-hono-api-starter.git
+cd bun-hono-api-starter
 ```
 
-3. Install dependencies
+2. Install dependencies:
 
 ```bash
 bun install
 ```
 
-To run:
-
-```bash
-bun run dev
-```
-
 ### Configuration
 
-Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example:
+Create a `.env` file in the root directory with the following variables:
 
 ```
-PORT=9000
-MONGO_URI=mongodb://localhost:27017/bun-hono-rest-api
-JWT_SECRET=secret
+PORT=8000
+MONGO_URI=mongodb://localhost:27017/bun-hono-api
+JWT_SECRET=your_jwt_secret_key
 ```
 
-### Routes
+## Usage
+
+### Development
+
+Run the development server with hot reloading:
+
+```bash
+bun dev
+```
+
+### Production
+
+Start the production server:
+
+```bash
+bun start
+```
+
+## API Routes
+
+| Method | Route                   | Description         | Auth Required | Admin Only |
+| ------ | ----------------------- | ------------------- | ------------- | ---------- |
+| GET    | `/api/v1`               | API welcome message | No            | No         |
+| POST   | `/api/v1/users`         | Create a new user   | No            | No         |
+| POST   | `/api/v1/users/login`   | User login          | No            | No         |
+| GET    | `/api/v1/users/profile` | Get user profile    | Yes           | No         |
+| PUT    | `/api/v1/users/profile` | Update user profile | Yes           | No         |
+| GET    | `/api/v1/users`         | Get all users       | Yes           | Yes        |
+| GET    | `/api/v1/users/:id`     | Get user by ID      | Yes           | Yes        |
+
+### Request/Response Examples
+
+**Create User:**
 
 ```
-POST /api/v1/users (Create User)
-POST /api/v1/users/login (Login User)
-GET /api/v1/users/profile (Get User Profile)
-GET /api/v1/useres (Get All Users)
-GET /api/v1/users/:id (Get User By Id)
-```
-
-### Usage
-
-```
-POST /api/v1/users (Create User)
+POST /api/v1/users
 ```
 
 ```json
@@ -81,8 +111,10 @@ POST /api/v1/users (Create User)
 }
 ```
 
+**User Login:**
+
 ```
-POST /api/v1/users/login (Login User)
+POST /api/v1/users/login
 ```
 
 ```json
@@ -92,60 +124,119 @@ POST /api/v1/users/login (Login User)
 }
 ```
 
-```
-GET /api/v1/users/profile (Get User Profile)
-Authorisation Header (Bearer Token)
-```
+**Update Profile:**
 
 ```
-GET /api/v1/useres (Get All Users)
-Authorisation Header (Bearer Token)
+PUT /api/v1/users/profile
 ```
 
+```json
+{
+  "name": "Updated Name",
+  "email": "updated@example.com",
+  "password": "newpassword" // Optional
+}
 ```
-GET /api/v1/users/:id (Get User By Id)
-Authorisation Header (Bearer Token)
+
+**Protected Routes:**
+Include the JWT token in the Authorization header:
+
 ```
+Authorization: Bearer your_jwt_token
+```
+
+## User Model
+
+The user model includes the following properties:
+
+```typescript
+interface IUser extends Document {
+  _id: Schema.Types.ObjectId
+  name: string
+  email: string
+  password: string
+  isAdmin: boolean
+  matchPassword: (pass: string) => Promise<boolean>
+}
+```
+
+Key features:
+
+- Password hashing with Bun's built-in password utilities
+- Automatic email validation (must match email pattern)
+- Admin role support with the `isAdmin` property
+- Password matching method for authentication
 
 ## Project Structure
 
 ```
-
-├── .vscode
-│ ├── settings.json
-├── config
-│ ├── db.ts
-├── controllers
-│ ├── user.ts
-├── middlewares
-│ ├── authMiddlewares.ts
-│ ├── errorMiddlewares.ts
-├── models
-│ ├── userModels.ts
-├── routes
-│ ├── userRoutes.ts
-├── utils
-│ ├── getToken.ts
-├── server.ts
-├── .env
-├── .gitignore
-├── bun.lockb
-├── README.md
-├── package.json
-├── tsconfig.ts
-
+├── config/              # Configuration files
+│   ├── compress.config.ts  # Compression configuration
+│   ├── db.config.ts     # Database configuration
+│   └── index.ts         # Config exports
+├── controllers/         # Route controllers
+│   ├── user.controllers.ts # User-related controllers
+│   └── index.ts         # Controller exports
+├── middlewares/         # Express middlewares
+│   ├── auth.middlewares.ts # Authentication middleware
+│   ├── error.middlewares.ts # Error handling middleware
+│   └── index.ts         # Middleware exports
+├── models/              # Database models
+│   ├── user.model.ts    # User model schema
+│   └── index.ts         # Model exports
+├── routes/              # API routes
+│   ├── user.routes.ts   # User routes
+│   └── index.ts         # Route exports
+├── utils/               # Utility functions
+│   ├── genToken.ts      # JWT token generator
+│   └── index.ts         # Utils exports
+├── server.ts            # Main application entry
+├── .env                 # Environment variables (create this)
+├── .gitignore           # Git ignore file
+├── bun.lock             # Bun lock file
+├── package.json         # Package configuration
+├── README.md            # This file
+└── tsconfig.json        # TypeScript configuration
 ```
+
+## Changelog
+
+### Version 2.0.0
+
+- Complete project restructuring with improved modularity
+- Added compression support with polyfill for `CompressionStream`
+- Enhanced error handling middleware
+- Updated MongoDB connection with better error feedback
+- Improved CORS configuration for better security
+- Updated to latest Hono v4.7.4 and Mongoose v8.12.1
+- Enhanced TypeScript support and typings
+- Standardized export patterns across modules
+- Added admin role functionality with middleware protection
+- Added profile editing functionality
+
+### Version 1.0.0
+
+- Initial release with basic CRUD functionality
+- MongoDB integration
+- JWT-based authentication
+- Basic error handling
 
 ## Contributing
 
-We welcome contributions to improve the API! If you find a bug, have a feature request, or want to suggest improvements, please create an issue in the GitHub repository. If you'd like to contribute code, feel free to fork the repository, create a new branch, commit your changes, and open a pull request.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Please ensure that your code follows the existing coding style and conventions.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the [MIT] License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
-If you have any questions or need further assistance, you can reach us at [Mehedi Hasan](fb.com/promehedi).
+Mehedi Hasan - [admin@promehedi.com](mailto:admin@promehedi.com)
+
+Project Link: [https://github.com/ProMehedi/bun-hono-api-starter](https://github.com/ProMehedi/bun-hono-api-starter)

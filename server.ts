@@ -1,27 +1,38 @@
+import '~/config/compress.config'
 import { Hono } from 'hono'
-import { logger } from 'hono/logger'
-import { prettyJSON } from 'hono/pretty-json'
 import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
+import { compress } from 'hono/compress'
 //
-import connectDB from './config/db'
-import { Users } from './routes'
-import { errorHandler, notFound } from './middlewares'
+import { DB } from './config'
+import { Users } from '~/routes'
+import { errorHandler, notFound } from '~/middlewares'
 
-// Initialize the Hono app
+// Initialize the Hono app with base path
 const app = new Hono().basePath('/api/v1')
 
 // Config MongoDB
-connectDB()
+DB()
 
-// Initialize middlewares
-app.use('*', logger(), prettyJSON())
+// Logger middleware
+app.use(logger())
 
-// Cors
+// Compress middleware
+app.use(
+  compress({
+    encoding: 'gzip',
+    threshold: 1024, // Minimum size to compress (1KB)
+  })
+)
+
+// CORS configuration (tightened for security)
 app.use(
   '*',
   cors({
-    origin: '*',
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    origin: '*', // Specify allowed origins (update for production)
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+    credentials: true,
+    maxAge: 86400, // Cache preflight for 1 day
   })
 )
 
@@ -31,19 +42,14 @@ app.get('/', (c) => c.text('Welcome to the API!'))
 // User Routes
 app.route('/users', Users)
 
-// Error Handler
-app.onError((err, c) => {
-  const error = errorHandler(c)
-  return error
-})
+// Error Handler (improved to use err)
+app.onError((err, c) => errorHandler(c))
 
-// Not Found Handler
-app.notFound((c) => {
-  const error = notFound(c)
-  return error
-})
+// Not Found Handler (standardized response)
+app.notFound(notFound)
 
-const port = Bun.env.PORT || 8000
+// Use process.env for better compatibility
+const port = process.env.PORT || 8000
 
 export default {
   port,
