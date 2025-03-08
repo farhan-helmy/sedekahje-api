@@ -1,34 +1,30 @@
-import { Context } from 'hono'
-import { ContentfulStatusCode } from 'hono/utils/http-status'
-
-interface ErrorResponse {
-  success: false
-  message: string
-  stack?: string | null
-}
+import { ErrorHandler, NotFoundHandler } from 'hono'
+import { ContentfulStatusCode, StatusCode } from 'hono/utils/http-status'
 
 // Error Handler
-export const errorHandler = (c: Context): Response => {
-  const status = (c.res.status || 500) as ContentfulStatusCode
+export const errorHandler: ErrorHandler = (err, c) => {
+  const currentStatus =
+    'status' in err ? err.status : c.newResponse(null).status
 
-  console.error('Error:', c.error)
+  const statusCode = currentStatus !== 200 ? (currentStatus as StatusCode) : 500
+  const env = c.env?.NODE_ENV || process.env?.NODE_ENV
 
-  return c.json<ErrorResponse>(
+  return c.json(
     {
       success: false,
-      message: c.error?.message || 'Internal Server Error',
-      stack: process.env.NODE_ENV === 'production' ? null : c.error?.stack,
+      message: err?.message || 'Internal Server Error',
+      stack: env ? null : err?.stack,
     },
-    status
+    statusCode as ContentfulStatusCode
   )
 }
 
 // Not Found Handler
-export const notFound = (c: Context) => {
+export const notFound: NotFoundHandler = (c) => {
   return c.json(
     {
       success: false,
-      message: `Not Found - [${c.req.method}] ${c.req.url}`,
+      message: `Not Found - [${c.req.method}]:[${c.req.url}]`,
     },
     404 // Explicitly set 404 status
   )

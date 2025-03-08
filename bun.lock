@@ -8,15 +8,12 @@
         "mongoose": "^8.12.1",
       },
       "devDependencies": {
-        "@cloudflare/workers-types": "^4.20250303.0",
         "@types/bun": "latest",
         "@types/mongoose": "^5.11.97",
       },
     },
   },
   "packages": {
-    "@cloudflare/workers-types": ["@cloudflare/workers-types@4.20250303.0", "", {}, "sha512-O7F7nRT4bbmwHf3gkRBLfJ7R6vHIJ/oZzWdby6obOiw2yavUfp/AIwS7aO2POu5Cv8+h3TXS3oHs3kKCZLraUA=="],
-
     "@mongodb-js/saslprep": ["@mongodb-js/saslprep@1.2.0", "", { "dependencies": { "sparse-bitfield": "^3.0.3" } }, "sha512-+ywrb0AqkfaYuhHs6LxKWgqbh3I72EpEgESCw37o+9qPx9WTCkgDm2B+eMrwehGtHBWHFU4GXvnSCNiFhhausg=="],
 
     "@types/bun": ["@types/bun@1.2.4", "", { "dependencies": { "bun-types": "1.2.4" } }, "sha512-QtuV5OMR8/rdKJs213iwXDpfVvnskPXY/S0ZiFbsTjQZycuqPbMW8Gf/XhLfwE5njW8sxI2WjISURXPlHypMFA=="],

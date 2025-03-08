@@ -7,10 +7,10 @@ import { compress } from 'hono/compress'
 import { DB } from './config'
 import { Users } from '~/routes'
 import { errorHandler, notFound } from '~/middlewares'
-import { ApiDoc } from './components/ApiDoc'
+import { ApiDoc } from '~/components/ApiDoc'
 
 // Initialize the Hono app with base path
-const app = new Hono().basePath('/api/v1')
+const app = new Hono({ strict: false }).basePath('/api/v1')
 
 // Config MongoDB - Only connect if not in Cloudflare Workers environment
 if (typeof process !== 'undefined') {
@@ -106,7 +106,7 @@ app.get('/', (c) => {
 app.route('/users', Users)
 
 // Error Handler (improved to use err)
-app.onError((err, c) => errorHandler(c))
+app.onError(errorHandler)
 
 // Not Found Handler (standardized response)
 app.notFound(notFound)
