@@ -23,6 +23,7 @@ A modern, high-performance API starter template using [Bun](https://bun.sh), [Ho
 - [Usage](#usage)
   - [Development](#development)
   - [Production](#production)
+- [Docker Deployment](#docker-deployment)
 - [API Routes](#api-routes)
 - [User Model](#user-model)
 - [Project Structure](#project-structure)
@@ -81,6 +82,62 @@ Start the production server:
 
 ```bash
 bun start
+```
+
+## Docker Deployment
+
+This project includes Docker configuration for easy deployment.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Running with Docker
+
+1. Build and start the containers:
+
+```bash
+docker-compose up -d
+```
+
+2. View logs:
+
+```bash
+docker-compose logs -f
+```
+
+3. Stop the containers:
+
+```bash
+docker-compose down
+```
+
+### Using the Helper Script
+
+For convenience, you can use the included script:
+
+```bash
+# Make the script executable
+chmod +x docker.sh
+
+# Build containers
+./docker.sh build
+
+# Start containers
+./docker.sh up
+
+# View logs
+./docker.sh logs
+
+# Access shell
+./docker.sh shell
+
+# Restart containers
+./docker.sh restart
+
+# Stop containers
+./docker.sh down
 ```
 
 ## API Routes
