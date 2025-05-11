@@ -9,10 +9,12 @@ const DB = async () => {
 
     const conn = await mongoose.connect(mongoUri, {
       autoIndex: true,
+      authSource: "admin"
     })
 
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`)
   } catch (err: any) {
+    console.log(err)
     console.error(`❌ MongoDB Connection Error: ${err.message}`)
     process.exit(1) // Exit on failure
   }

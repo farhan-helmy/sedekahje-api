@@ -11,7 +11,9 @@
   "scripts": {
     "start": "NODE_ENV=production bun run server.ts",
     "dev": "bun run --hot server.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:institutions": "bun run scripts/seedInstitutions.ts",
+    "create:admin": "bun run scripts/createAdmin.ts"
   },
   "dependencies": {
     "hono": "^4.7.4",

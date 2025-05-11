@@ -5,7 +5,7 @@ import { logger } from 'hono/logger'
 import { compress } from 'hono/compress'
 //
 import { DB } from './config'
-import { Users } from '~/routes'
+import { Users, Institutions } from '~/routes'
 import { errorHandler, notFound } from '~/middlewares'
 import { ApiDoc } from '~/components/ApiDoc'
 
@@ -91,6 +91,41 @@ app.get('/', (c) => {
       auth: true,
       admin: true,
     },
+    {
+      method: 'GET',
+      path: '/api/v1/institutions',
+      description: 'Get all institutions',
+      auth: false,
+      admin: false,
+    },
+    {
+      method: 'GET',
+      path: '/api/v1/institutions/:slug',
+      description: 'Get institution by slug',
+      auth: false,
+      admin: false,
+    },
+    {
+      method: 'POST',
+      path: '/api/v1/institutions',
+      description: 'Create a new institution',
+      auth: true,
+      admin: true,
+    },
+    {
+      method: 'PUT',
+      path: '/api/v1/institutions/:slug',
+      description: 'Update institution by slug',
+      auth: true,
+      admin: true,
+    },
+    {
+      method: 'DELETE',
+      path: '/api/v1/institutions/:slug',
+      description: 'Delete institution by slug',
+      auth: true,
+      admin: true,
+    },
   ]
 
   return c.html(
@@ -102,8 +137,20 @@ app.get('/', (c) => {
   )
 })
 
+// Health Check Endpoint
+app.get('/health', (c) => {
+  return c.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    service: 'sedekahje-api'
+  })
+})
+
 // User Routes
 app.route('/users', Users)
+
+// Institution Routes
+app.route('/institutions', Institutions)
 
 // Error Handler (improved to use err)
 app.onError(errorHandler)

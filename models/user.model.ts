@@ -31,7 +31,7 @@ userSchema.pre('save', async function (next) {
   try {
     this.password = await Bun.password.hash(this.password, {
       algorithm: 'bcrypt',
-      cost: 10, // number between 4-31 [Heiger is secure but slower]
+      cost: 10, // number between 4-31 [Higher is secure but slower]
     })
     next()
   } catch (error) {

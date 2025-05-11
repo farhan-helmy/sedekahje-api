@@ -1,0 +1,95 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cursor Rules for SedekahJe API
+
+This document explains the Cursor IDE configuration rules defined in `cursorrules.json`.
+
+## Project overview
+
+This api will display all the institutions that can be use to donate to, like mosque, and sumn
+
+this is the sample data
+
+```json
+
+```
+
+## Configuration Overview
+
+The configuration is tailored for a TypeScript API project built with Bun, Hono, and Mongoose.
+
+### Formatting Rules
+
+- **Indentation**: 2 spaces
+- **Quotes**: Single quotes for strings
+- **Trailing Comma**: ES5 style
+- **Semicolons**: Not used
+- **Line Width**: Maximum 80 characters
+- **End of Line**: LF (Unix-style)
+- **Arrow Function Parentheses**: Always use
+- **Bracket Spacing**: Enabled
+
+### Linting Rules
+
+#### JavaScript
+
+- **Unused Variables**: Warning level
+- **Console Statements**: Warning level
+- **Implicit Any**: Allowed
+- **Null Checks**: Strict
+- **Import Order**: Organized by (1) Hono imports, (2) Internal paths, (3) Relative paths
+
+#### TypeScript
+
+- **Implicit Any**: Allowed (matches tsconfig.json)
+- **Null Checks**: Strict
+- **Module Interoperability**: Enhanced with allowSyntheticDefaultImports and esModuleInterop
+- **File Naming**: Enforces consistent casing
+
+### Suggestions
+
+- **TypeScript Suggestions**: Enabled
+- **Const Preference**: Prefers const over let
+- **Import Aliases**: Maps "~" to the project root
+
+### Completion
+
+- **Hono**: Enhanced completion for imports, middleware, and handlers
+- **Mongoose**: Enhanced completion for schema definitions and query methods
+
+### Code Actions
+
+- **Organize Imports**: Automatically organize imports
+- **Add Import**: Automatically add missing imports
+- **Fix All**: Automatically fix linting issues
+
+### Snippets
+
+Custom snippets are provided for common patterns:
+
+1. **Controller (prefix: ctrl)**
+   - Creates a new controller function with API documentation
+   - Includes proper error handling
+
+2. **Route (prefix: route)**
+   - Creates a new route file with Hono setup
+   - Includes imports for controllers and middleware
+
+3. **Model (prefix: model)**
+   - Creates a new Mongoose model with interface
+   - Includes timestamps and exports
+
+## Usage
+
+The Cursor IDE should automatically detect and apply these rules. If not, you may need to:
+
+1. Restart the IDE
+2. Open the command palette (Ctrl+Shift+P or Cmd+Shift+P)
+3. Type "Reload Window" and select it
+
+## Customization
+
+You can modify the `cursorrules.json` file to add or change rules according to your project needs. 
